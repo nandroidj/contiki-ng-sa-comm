@@ -1,32 +1,14 @@
-<img src="https://github.com/contiki-ng/contiki-ng.github.io/blob/master/images/logo/Contiki_logo_2RGB.png" alt="Logo" width="256">
+1. Clone Contiki-NG repository and at least checked out the coresdk_cc13xx_cc26xx submodule.
 
-# Contiki-NG: The OS for Next Generation IoT Devices
+$ git clone https://github.com/contiki-ng/contiki-ng.git
+$ cd contiki-ng
+$ git submodule update --init arch/cpu/simplelink-cc13xx-cc26xx/lib/coresdk_cc13xx_cc26xx
 
-[![Build Status](https://travis-ci.org/contiki-ng/contiki-ng.svg?branch=master)](https://travis-ci.org/contiki-ng/contiki-ng/branches)
-[![Documentation Status](https://readthedocs.org/projects/contiki-ng/badge/?version=master)](https://contiki-ng.readthedocs.io/en/master/?badge=master)
-[![license](https://img.shields.io/badge/license-3--clause%20bsd-brightgreen.svg)](https://github.com/contiki-ng/contiki-ng/blob/master/LICENSE.md)
-[![Latest release](https://img.shields.io/github/release/contiki-ng/contiki-ng.svg)](https://github.com/contiki-ng/contiki-ng/releases/latest)
-[![GitHub Release Date](https://img.shields.io/github/release-date/contiki-ng/contiki-ng.svg)](https://github.com/contiki-ng/contiki-ng/releases/latest)
-[![Last commit](https://img.shields.io/github/last-commit/contiki-ng/contiki-ng.svg)](https://github.com/contiki-ng/contiki-ng/commit/HEAD)
+2.Download the necessary software:
 
-Contiki-NG is an open-source, cross-platform operating system for Next-Generation IoT devices. It focuses on dependable (secure and reliable) low-power communication and standard protocols, such as IPv6/6LoWPAN, 6TiSCH, RPL, and CoAP. Contiki-NG comes with extensive documentation, tutorials, a roadmap, release cycle, and well-defined development flow for smooth integration of community contributions.
-
-Unless explicitly stated otherwise, Contiki-NG sources are distributed under
-the terms of the [3-clause BSD license](LICENSE.md). This license gives
-everyone the right to use and distribute the code, either in binary or
-source code format, as long as the copyright license is retained in
-the source code.
-
-Contiki-NG started as a fork of the Contiki OS and retains some of its original features.
-
-Find out more:
-
-* GitHub repository: https://github.com/contiki-ng/contiki-ng
-* Documentation: https://github.com/contiki-ng/contiki-ng/wiki
-* Web site: http://contiki-ng.org
-* Nightly testbed runs: https://contiki-ng.github.io/testbed
-
-Engage with the community:
-
-* Gitter: https://gitter.im/contiki-ng
-* Twitter: https://twitter.com/contiki_ng
+   2.1 TI's Code Composer Studio (CCS) with support for CC13xx/CC26xx devices installed.
+   2.2 The ARM GCC add-on in CCS. In CCS:
+        Navigate to View → CCS App Center.
+        Search for ARM GCC and click Select.
+   2.3 If you are using Linux:
+        sudo apt-get install build-essential

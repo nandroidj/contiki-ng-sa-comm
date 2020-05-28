@@ -1,1 +1,2 @@
-Soil Analysis with Contiki-ng and the SimpleLink family.
+Soil Analysis with Contiki-ng and the SimpleLink family devices
+.

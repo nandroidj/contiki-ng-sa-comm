@@ -7,6 +7,12 @@ PLATFORMS_EXCLUDE = sky z1
 # Include CoAP resources
 MODULES_REL += ./resources
 
+##############################
+TARGET = simplelink
+BOARD = launchpad/cc1352r1
+CFLAGS += -g 
+##############################
+
 CONTIKI=../../..
 
 # Include the CoAP implementation

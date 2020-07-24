@@ -5,6 +5,12 @@ CONTIKI = ../..
 # The BR is either native or embedded, and in the latter case must support SLIP
 PLATFORMS_EXCLUDE = nrf52dk z1
 
+##############################
+TARGET = simplelink
+BOARD = launchpad/cc1352r1
+CFLAGS += -g 
+##############################
+
 # Include RPL BR module
 include $(CONTIKI)/Makefile.dir-variables
 MODULES += $(CONTIKI_NG_SERVICES_DIR)/rpl-border-router

@@ -194,24 +194,18 @@ i2c_read(void *rbuf, size_t rcount)
   return i2c_write_read(NULL, 0, rbuf, rcount);
 }
 /*---------------------------------------------------------------------------*/
-/* Releases the I2C Peripheral */
-static void
-i2c_release(void)
-{
-  I2C_close(i2c_handle);
-  i2c_handle = NULL;
-}
-/*---------------------------------------------------------------------------*/
-/* Acquires the I2C Peripheral */
+/**
+ * \brief   Initialize the OPT-3001 sensor driver.
+ * \return  true if I2C operation successful; else, return false.
+ */
 static bool
-i2c_acquire(void)
+sensor_init(void)
 {
-  I2C_Params i2c_params;
-
   if(i2c_handle) {
     return true;
   }
 
+  I2C_Params i2c_params;
   I2C_Params_init(&i2c_params);
 
   i2c_params.transferMode = I2C_MODE_BLOCKING;
@@ -234,24 +228,12 @@ i2c_acquire(void)
 static bool
 sensor_enable(bool enable)
 {
-  bool rv;
   uint16_t data = (enable)
     ? CFG_ENABLE_SINGLE_SHOT
     : CFG_DISABLE;
 
-  if(!i2c_acquire()) {
-    opt_3001.status = OPT_3001_STATUS_I2C_ERROR;
-    i2c_release();
-    return false;
-  }
-
   uint8_t cfg_data[] = { REG_CONFIGURATION, LSB16(data) };
-
-  rv = i2c_write(cfg_data, sizeof(cfg_data));
-
-  i2c_release();
-
-  return rv;
+  return i2c_write(cfg_data, sizeof(cfg_data));
 }
 /*---------------------------------------------------------------------------*/
 /**
@@ -262,12 +244,6 @@ notify_ready_cb(void *unused)
 {
   /* Unused args */
   (void)unused;
-
-  if(!i2c_acquire()) {
-    opt_3001.status = OPT_3001_STATUS_I2C_ERROR;
-    i2c_release();
-    return;
-  }
 
   /*
    * Depending on the CONFIGURATION.CONVERSION_TIME bits, a conversion will
@@ -281,7 +257,6 @@ notify_ready_cb(void *unused)
   bool spi_ok = i2c_write_read(cfg_data, sizeof(cfg_data), &cfg_value, sizeof(cfg_value));
   if(!spi_ok) {
     opt_3001.status = OPT_3001_STATUS_I2C_ERROR;
-    i2c_release();
     return;
   }
 
@@ -291,8 +266,6 @@ notify_ready_cb(void *unused)
   } else {
     ctimer_set(&startup_timer, SENSOR_STARTUP_DELAY, notify_ready_cb, NULL);
   }
-
-  i2c_release();
 }
 /*---------------------------------------------------------------------------*/
 /**
@@ -310,11 +283,6 @@ value(int type)
     return OPT_3001_READING_ERROR;
   }
 
-  if(!i2c_acquire()) {
-    opt_3001.status = OPT_3001_STATUS_I2C_ERROR;
-    return OPT_3001_READING_ERROR;
-  }
-
   uint8_t cfg_data[] = { REG_CONFIGURATION };
   uint16_t cfg_value = 0;
 
@@ -328,7 +296,6 @@ value(int type)
   uint16_t result_value = 0;
 
   spi_ok = i2c_write_read(result_data, sizeof(result_data), &result_value, sizeof(result_value));
-  i2c_release();
   if(!spi_ok) {
     opt_3001.status = OPT_3001_STATUS_I2C_ERROR;
     return OPT_3001_READING_ERROR;
@@ -365,7 +332,12 @@ configure(int type, int enable)
   int rv = 0;
   switch(type) {
   case SENSORS_HW_INIT:
-    opt_3001.status = OPT_3001_STATUS_STANDBY;
+    if(sensor_init()) {
+      opt_3001.status = OPT_3001_STATUS_STANDBY;
+    } else {
+      opt_3001.status = OPT_3001_STATUS_DISABLED;
+      rv = OPT_3001_READING_ERROR;
+    }
     break;
 
   case SENSORS_ACTIVE:

@@ -12,6 +12,6 @@ BOARD_SOURCEFILES += button-sensor-arch.c leds-arch.c
 # maybe I have to change BOARD_SOURCEFILES rule for CONTIKI_TARGET_SOURCEFILES rule
 
 #BOARD_SOURCEFILES += launchpad-sensors.c
-#BOARD_SOURCEFILES += hdc-1000-sensor.c opt-3001-sensor.c
+#BOARD_SOURCEFILES += hdc```-1000-sensor.c opt-3001-sensor.c
 
 TARGET_FAMILY_DIRS += launchpad

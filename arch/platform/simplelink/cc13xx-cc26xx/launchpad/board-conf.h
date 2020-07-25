@@ -87,9 +87,24 @@
  * Those values are not meant to be modified by the user
  * @{
  */
+#ifndef BOARD_CONF_HAS_SENSORS
 #define BOARD_CONF_HAS_SENSORS      0
+#endif
 /** @} */
 /*---------------------------------------------------------------------------*/
+/**
+ *
+ *                  ADDED FROM SENSORTAG !      in this way the BOARD recognize the SENSORS() API !
+ *
+ * \name Enable or disable the SensorTag sensors.
+ *
+ * Those values are not meant to be modified by the user
+ * @{
+ */
+#define BOARD_SENSORS_ENABLE      (!(BOARD_CONF_SENSORS_DISABLE))
+/** @} */
+/*---------------------------------------------------------------------------*/
+
 /**
  * \name The external flash SPI CS pin, defined in Board.h.
  *

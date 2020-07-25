@@ -168,6 +168,11 @@ extern "C" {
 
 #define Board_WATCHDOG0         CC1352R1_LAUNCHXL_WATCHDOG0
 
+/************************************************ ADDED ****/
+#define Board_OPT3001_ADDR      (0x40)
+#define Board_HDC1000_ADDR      (0x40)
+/************************************************ ADDED ****/
+
 #ifdef __cplusplus
 }
 #endif

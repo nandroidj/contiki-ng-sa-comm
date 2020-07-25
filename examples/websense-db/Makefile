@@ -10,10 +10,6 @@ TARGET = simplelink
 BOARD = launchpad/cc1352r1
 CFLAGS += -g
 
-# Include RPL BR module
-#include $(CONTIKI)/Makefile.dir-variables
-#MODULES += $(CONTIKI_NG_SERVICES_DIR)/rpl-border-router
-
 # Include webserver module
 MODULES_REL += webserver
 # Include optional target-specific module

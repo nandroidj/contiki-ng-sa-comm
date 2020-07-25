@@ -63,8 +63,6 @@ PT_THREAD(generate_routes(struct httpd_state *s))
     PSOCK_BEGIN(&s->sout);
     //SEND_STRING(&s->sout, TOP);
 
-    printf("MEASURING \n");
-
     int temperature = 15 + random_rand() % 25;
     int humidity = 80 + random_rand() % 10;
     sprintf(buff,"{\"temp\":%u,\"hum\":%u}", temperature, humidity);

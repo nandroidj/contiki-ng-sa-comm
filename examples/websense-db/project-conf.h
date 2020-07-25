@@ -35,12 +35,12 @@
 #define WEBSERVER_CONF_CFS_CONNS 2
 #endif
 
-//#ifndef BORDER_ROUTER_CONF_WEBSERVER
-//#define BORDER_ROUTER_CONF_WEBSERVER 1
-//#endif
-
-//#if BORDER_ROUTER_CONF_WEBSERVER
 #define UIP_CONF_TCP 1
-//#endif
+
+// For 2.4 GHz (IEEE) Mode
+#define RF_CONF_MODE    RF_MODE_2_4_GHZ
+// For Sub-1 GHz (Prop) Mode
+//#define RF_CONF_MODE    RF_MODE_SUB_1_GHZ
+
 
 #endif /* PROJECT_CONF_H_ */

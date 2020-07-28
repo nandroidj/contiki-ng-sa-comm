@@ -1,0 +1,22 @@
+{
+    "name": "Gravity Soil Moisture Sensor",
+    "keywords": "soil, moisture, sensor, gravity, dfrobot",
+    "description": "Arduino Library for DfRobot's Gravity Analog Capacitive Soil Moisture Sensor",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://github.com/mihai-dinculescu/arduino-gravity-soil-moisture-sensor.git"
+    },
+    "authors":
+    [
+      {
+        "name": "Mihai Dinculescu",
+        "email": null,
+        "url": "https://github.com/mihai-dinculescu",
+        "maintainer": true
+      }
+    ],
+    "version": "1.0.0",
+    "frameworks": "arduino",
+    "platforms": "*"
+}

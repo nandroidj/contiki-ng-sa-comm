@@ -1,0 +1,6 @@
+# Datatypes (KEYWORD1)
+GravitySoilMoistureSensor   KEYWORD1
+
+# Methods and Functions (KEYWORD2)
+Setup	KEYWORD2
+Read	KEYWORD2

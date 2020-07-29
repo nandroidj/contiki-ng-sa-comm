@@ -13,6 +13,6 @@ BOARD_SOURCEFILES += button-sensor-arch.c leds-arch.c
 
 BOARD_SOURCEFILES += launchpad-sensors.c
 BOARD_SOURCEFILES += hdc-1000-sensor.c opt-3001-sensor.c
-BOARD_SOURCEFILES += moisture-sensor.c
+BOARD_SOURCEFILES += moisture-sensor.c temp-ds18b20-sensor.c
 
 TARGET_FAMILY_DIRS += launchpad

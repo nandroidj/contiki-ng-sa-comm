@@ -44,6 +44,6 @@
 #include "board-peripherals.h"
 /*---------------------------------------------------------------------------*/
 /* Exports a global symbol to be used by the sensor API */
-SENSORS(&opt_3001_sensor, &hdc_1000_sensor);
+SENSORS(&opt_3001_sensor, &hdc_1000_sensor, &soil_moisture_sensor);
 /*---------------------------------------------------------------------------*/
 /** @} */

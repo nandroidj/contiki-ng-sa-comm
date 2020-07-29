@@ -53,6 +53,7 @@
 
 #include "opt-3001-sensor.h"
 #include "hdc-1000-sensor.h"
+#include "moisture-sensor.h"
 
 #endif /* BOARD_PERIPHERALS_H_ */
 /*---------------------------------------------------------------------------*/

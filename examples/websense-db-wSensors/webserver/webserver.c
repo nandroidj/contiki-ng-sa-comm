@@ -38,6 +38,10 @@
 
 #include "sensing.h"
 
+#include "net/ipv6/uip.h"
+#include "net/ipv6/uiplib.h"
+#include "net/ipv6/ip64-addr.h"
+
 #include <stdio.h>
 #include <string.h>
 /*---------------------------------------------------------------------------*/
@@ -59,11 +63,18 @@ int internal_temperature, external_temperature, internal_humidity, external_humi
  */
 #include "httpd-simple.h"
 
+void get_ipv6_address(char * buffer, size_t size);
 /*---------------------------------------------------------------------------*/
 static
 PT_THREAD(generate_routes(struct httpd_state *s))
 {
     char buff[35];
+
+    char buffer[UIPLIB_IPV6_MAX_STR_LEN];
+
+    get_ipv6_address(buffer, sizeof(buffer));
+    printf("%s", buffer);
+
     PSOCK_BEGIN(&s->sout);
     //SEND_STRING(&s->sout, TOP);
 
@@ -118,3 +129,13 @@ httpd_simple_get_script(const char *name)
   return generate_routes;
 }
 /*---------------------------------------------------------------------------*/
+
+void get_ipv6_address(char * buffer, size_t size) {
+
+    uip_ds6_addr_t *lladdr;
+    memcpy(&uip_lladdr.addr, &linkaddr_node_addr, sizeof(uip_lladdr.addr));
+    //process_start(&tcpip_process, NULL);
+
+    lladdr = uip_ds6_get_link_local(-1);
+    uiplib_ipaddr_snprint(buffer, sizeof(buffer), &lladdr->ipaddr);
+}

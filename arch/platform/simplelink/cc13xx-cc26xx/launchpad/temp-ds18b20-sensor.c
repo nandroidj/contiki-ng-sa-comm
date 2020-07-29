@@ -1,5 +1,7 @@
 /*---------------------------------------------------------------------------*/
-/*  OneWire library, https://www.arduinolibraries.info/libraries/one-wire
+/*  OneWire library,
+ * https://www.maximintegrated.com/en/design/technical-documents/app-notes/1/126.html
+ * https://www.arduinolibraries.info/libraries/one-wire
 */
 /*---------------------------------------------------------------------------*/
 #include "contiki.h"

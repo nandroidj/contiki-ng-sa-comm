@@ -23,7 +23,7 @@ void init_hdc_reading(void *not_used);
 void init_soil_moisture_reading(void *not_used);
 void init_temp_ds18b20_reading(void *not_used);
 /*---------------------------------------------------------------------------*/
-extern int internal_temperature, external_temperature, internal_humidity, external_humidity;
+extern int ambient_temperature, soil_temperature, ambient_humidity, soil_humidity;
 /*---------------------------------------------------------------------------*/
 void
 get_hdc_reading()
@@ -35,7 +35,7 @@ get_hdc_reading()
   value = hdc_1000_sensor.value(HDC_1000_SENSOR_TYPE_TEMP);
   if(value != SENSOR_READING_ERROR) {
     printf("HDC: Temp=%d.%02d C\n", value / 100, value % 100);
-    internal_temperature = value / 100;
+    ambient_temperature = value / 100;
   } else {
     printf("HDC: Temp Read Error\n");
   }
@@ -43,7 +43,7 @@ get_hdc_reading()
   value = hdc_1000_sensor.value(HDC_1000_SENSOR_TYPE_HUMID);
   if(value != SENSOR_READING_ERROR) {
     printf("HDC: Humidity=%d.%02d %%RH\n", value / 100, value % 100);
-    internal_humidity = value / 100;
+    ambient_humidity = value / 100;
   } else {
     printf("HDC: Humidity Read Error\n");
   }
@@ -79,7 +79,7 @@ get_soil_moisture_reading()
   value = soil_moisture_sensor.value(0);
   if(value != SENSOR_READING_ERROR) {
     printf("MOISTURE: Hum=%d \n", value % 10);
-    external_humidity = value % 10;
+    soil_humidity = value % 10;
   } else {
     printf("MOISTURE: Huimidity Read Error\n");
   }
@@ -98,7 +98,7 @@ get_temp_ds18b20_reading()
   value = soil_moisture_sensor.value(0);
   if(value != SENSOR_READING_ERROR) {
     printf("TEMP: Temp=%d.%d \n", value, value % 100);
-    external_temperature = value;
+    soil_temperature = value;
   } else {
     printf("TEMP: Temperature Read Error\n");
   }

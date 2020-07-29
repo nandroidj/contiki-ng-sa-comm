@@ -45,7 +45,7 @@
 #include <stdio.h>
 #include <string.h>
 /*---------------------------------------------------------------------------*/
-int internal_temperature, external_temperature, internal_humidity, external_humidity;
+int ambient_temperature, soil_temperature, ambient_humidity, soil_humidity;
 
 /*---------------------------------------------------------------------------*/
 
@@ -78,7 +78,7 @@ PT_THREAD(generate_routes(struct httpd_state *s))
     PSOCK_BEGIN(&s->sout);
     //SEND_STRING(&s->sout, TOP);
 
-    sprintf(buff,"{\"id_ipv6\":%s,\"internal_temp\":%u,\"external_temp\":%u,\"internal_hum\":%u,\"external_hum\":%u}", buffer, internal_temperature, external_temperature,internal_humidity, external_humidity);
+    sprintf(buff,"{\"id_ipv6\":%s,\"internal_temp\":%u,\"external_temp\":%u,\"internal_hum\":%u,\"external_hum\":%u}", buffer, ambient_temperature, soil_temperature,ambient_humidity, soil_humidity);
     printf("send json to requester\n");
     SEND_STRING(&s->sout, buff);
     //SEND_STRING(&s->sout, BOTTOM);

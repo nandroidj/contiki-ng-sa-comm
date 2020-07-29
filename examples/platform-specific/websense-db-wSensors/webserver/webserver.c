@@ -29,16 +29,19 @@
  * This file is part of the Contiki operating system.
  *
  */
-
+/*---------------------------------------------------------------------------*/
 #include "contiki.h"
 #include "net/routing/routing.h"
 #include "net/ipv6/uip-ds6-nbr.h"
 #include "net/ipv6/uip-ds6-route.h"
 #include "net/ipv6/uip-sr.h"
-
+/*---------------------------------------------------------------------------*/
 #include <stdio.h>
 #include <string.h>
-
+/*---------------------------------------------------------------------------*/
+#include "net/ipv6/uip.h"
+#include "net/ipv6/uiplib.h"
+#include "net/ipv6/ip64-addr.h"
 /*---------------------------------------------------------------------------*/
 
 #define ADD(...) do {                                                   \
@@ -55,6 +58,31 @@
  */
 #include "httpd-simple.h"
 
+void get_ipv6_address(char * buffer, size_t size);
+/*---------------------------------------------------------------------------*/
+static
+PT_THREAD(generate_routes(struct httpd_state *s))
+{
+    char buff[35];
+    char buffer[UIPLIB_IPV6_MAX_STR_LEN];
+
+    int ambient_temperature = 13;
+    int soil_temperature = 15;
+    int ambient_humidity = 35;
+    int soil_humidity = 41;
+
+    get_ipv6_address(buffer, sizeof(buffer));
+    printf("%s", buffer);
+
+    PSOCK_BEGIN(&s->sout);
+    //SEND_STRING(&s->sout, TOP);
+
+    sprintf(buff,"{\"id_ipv6\":%s,\"internal_temp\":%u,\"external_temp\":%u,\"internal_hum\":%u,\"external_hum\":%u}", buffer, ambient_temperature, soil_temperature,ambient_humidity, soil_humidity);
+    printf("send json to requester\n");
+    SEND_STRING(&s->sout, buff);
+    //SEND_STRING(&s->sout, BOTTOM);
+    PSOCK_END(&s->sout);
+}
 /*---------------------------------------------------------------------------*/
 static
 PT_THREAD(generate_routes(struct httpd_state *s))
@@ -93,3 +121,12 @@ httpd_simple_get_script(const char *name)
   return generate_routes;
 }
 /*---------------------------------------------------------------------------*/
+void get_ipv6_address(char * buffer, size_t size) {
+
+    uip_ds6_addr_t *lladdr;
+    memcpy(&uip_lladdr.addr, &linkaddr_node_addr, sizeof(uip_lladdr.addr));
+    //process_start(&tcpip_process, NULL);
+
+    lladdr = uip_ds6_get_link_local(-1);
+    uiplib_ipaddr_snprint(buffer, sizeof(buffer), &lladdr->ipaddr);
+}

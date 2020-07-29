@@ -36,8 +36,12 @@
 #include "net/ipv6/uip-ds6-route.h"
 #include "net/ipv6/uip-sr.h"
 
+#include "sensing.h"
+
 #include <stdio.h>
 #include <string.h>
+/*---------------------------------------------------------------------------*/
+int internal_temperature, external_temperature, internal_humidity, external_humidity;
 
 /*---------------------------------------------------------------------------*/
 
@@ -63,9 +67,7 @@ PT_THREAD(generate_routes(struct httpd_state *s))
     PSOCK_BEGIN(&s->sout);
     //SEND_STRING(&s->sout, TOP);
 
-    int temperature = 15 + random_rand() % 25;
-    int humidity = 80 + random_rand() % 10;
-    sprintf(buff,"{\"temp\":%u,\"hum\":%u}", temperature, humidity);
+    sprintf(buff,"{\"internal_temp\":%u,\"external_temp\":%u,\"internal_hum\":%u,\"external_hum\":%u}", internal_temperature, external_temperature,internal_humidity, external_humidity);
     printf("send json to requester\n");
     SEND_STRING(&s->sout, buff);
     //SEND_STRING(&s->sout, BOTTOM);
@@ -75,16 +77,39 @@ PT_THREAD(generate_routes(struct httpd_state *s))
 PROCESS(webserver_nogui_process, "Web server");
 PROCESS_THREAD(webserver_nogui_process, ev, data)
 {
-  PROCESS_BEGIN();
+    PROCESS_BEGIN();
 
-  httpd_init();
+    httpd_init();
 
-  while(1) {
+    init_battery_sensor();
+    get_battery_sensor_reading();
+    init_sensor_readings();
+
+    while(1) {
+
+      PROCESS_YIELD();
+
+      if(ev == PROCESS_EVENT_TIMER) {
+          get_battery_sensor_reading();
+      } else if(ev == sensors_event) {
+        if(data == &opt_3001_sensor) {
+          get_light_reading();
+        } else if(data == &hdc_1000_sensor) {
+          get_hdc_reading();
+        } else if(data == &soil_moisture_sensor) {
+          get_soil_moisture_reading();
+        } else if(data == &temp_ds18b20_sensor) {
+          get_temp_ds18b20_reading();
+        }
+      }
+    }
+
+    while(1) {
     PROCESS_WAIT_EVENT_UNTIL(ev == tcpip_event);
     httpd_appcall(data);
-  }
+    }
 
-  PROCESS_END();
+    PROCESS_END();
 }
 /*---------------------------------------------------------------------------*/
 httpd_simple_script_t

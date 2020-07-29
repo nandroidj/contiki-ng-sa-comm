@@ -18,4 +18,18 @@
 #include <stdio.h>
 #include <stdint.h>
 
+void init_sensor_readings(void);
+void init_battery_sensor(void);
+
+void init_opt_reading(void *not_used);
+void init_hdc_reading(void *not_used);
+void init_soil_moisture_reading(void *not_used);
+void init_temp_ds18b20_reading(void *not_used);
+
+void get_hdc_reading(void);
+void get_light_reading(void);
+void get_soil_moisture_reading(void);
+void get_temp_ds18b20_reading(void);
+void get_battery_sensor_reading(void);
+
 #endif /* SENSING_H_ */

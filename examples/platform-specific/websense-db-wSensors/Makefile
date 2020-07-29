@@ -1,6 +1,6 @@
 CONTIKI_PROJECT = websense-db
 all: $(CONTIKI_PROJECT)
-CONTIKI = ../..
+CONTIKI = ../../..
 
 # The BR is either native or embedded, and in the latter case must support SLIP
 PLATFORMS_EXCLUDE = nrf52dk z1
@@ -12,7 +12,6 @@ CFLAGS += -g
 
 # Include webserver module
 MODULES_REL += webserver
-MODULES_REL += sensing
 # Include optional target-specific module
 include $(CONTIKI)/Makefile.identify-target
 MODULES_REL += $(TARGET)

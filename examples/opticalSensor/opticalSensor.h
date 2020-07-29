@@ -1,10 +1,3 @@
-/*
- * opticalSensor.h
- *
- *  Created on: Jul 13, 2020
- *      Author: nandroid
- */
-
 #ifndef CONTIKI_NG_EXAMPLES_OPTICALSENSOR_OPTICALSENSOR_H_
 #define CONTIKI_NG_EXAMPLES_OPTICALSENSOR_OPTICALSENSOR_H_
 

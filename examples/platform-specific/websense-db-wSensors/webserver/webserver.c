@@ -43,7 +43,9 @@
 #include "net/ipv6/uiplib.h"
 #include "net/ipv6/ip64-addr.h"
 /*---------------------------------------------------------------------------*/
-
+#include "lib/random.h"
+#include <stdio.h>
+/*---------------------------------------------------------------------------*/
 #define ADD(...) do {                                                   \
     blen += snprintf(&buf[blen], sizeof(buf) - blen, __VA_ARGS__);      \
   } while(0)
@@ -63,8 +65,11 @@ void get_ipv6_address(char * buffer, size_t size);
 static
 PT_THREAD(generate_routes(struct httpd_state *s))
 {
-    char buff[35];
+    char buff[500];
     char buffer[UIPLIB_IPV6_MAX_STR_LEN];
+
+    int temp_value;
+//    unsigned short hum_value;
 
     int ambient_temperature = 13;
     int soil_temperature = 15;
@@ -77,14 +82,25 @@ PT_THREAD(generate_routes(struct httpd_state *s))
     PSOCK_BEGIN(&s->sout);
     //SEND_STRING(&s->sout, TOP);
 
-    sprintf(buff,"{\"id_ipv6\":%s,\"internal_temp\":%u,\"external_temp\":%u,\"internal_hum\":%u,\"external_hum\":%u}", buffer, ambient_temperature, soil_temperature,ambient_humidity, soil_humidity);
+    temp_value = random_rand();
+
+    if(temp_value <= 100) {
+            temp_value /= 10;
+    } else if(temp_value <= 1000) {
+            temp_value /= 100;
+    } else if(temp_value <= RANDOM_RAND_MAX) {
+            temp_value /= 1000;
+    }
+
+    sprintf(buff,"{\"id_ipv6\":%s,\"a_temp\":%d,\"a_hum\":%d.23,\"s_temp\":%d.%d, \"s_hum\":%d}",buffer, ambient_temperature, ambient_humidity, soil_temperature,temp_value, soil_humidity);
+//    sprintf(buff,"{\"id_ipv6\":%s,\"ambient_temp\":%d.23,\"ambient_hum\":%d, \"soil_temp\":%d,\"soil_hum\":%d}", buffer, ambient_temperature, ambient_humidity, soil_temperature, temp_value, soil_humidity);
     printf("send json to requester\n");
     SEND_STRING(&s->sout, buff);
     //SEND_STRING(&s->sout, BOTTOM);
     PSOCK_END(&s->sout);
 }
 /*---------------------------------------------------------------------------*/
-static
+/*static
 PT_THREAD(generate_routes(struct httpd_state *s))
 {
     char buff[35];
@@ -98,7 +114,7 @@ PT_THREAD(generate_routes(struct httpd_state *s))
     SEND_STRING(&s->sout, buff);
     //SEND_STRING(&s->sout, BOTTOM);
     PSOCK_END(&s->sout);
-}
+}*/
 /*---------------------------------------------------------------------------*/
 PROCESS(webserver_nogui_process, "Web server");
 PROCESS_THREAD(webserver_nogui_process, ev, data)

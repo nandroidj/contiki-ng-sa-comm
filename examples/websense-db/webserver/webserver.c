@@ -64,8 +64,10 @@ PT_THREAD(generate_routes(struct httpd_state *s))
     //SEND_STRING(&s->sout, TOP);
 
     int temperature = 15 + random_rand() % 25;
+    int s_temperature = 15 + random_rand() % 25;
     int humidity = 80 + random_rand() % 10;
-    sprintf(buff,"{\"temp\":%u,\"hum\":%u}", temperature, humidity);
+    int s_humidity = 80 + random_rand() % 10;
+    sprintf(buff,"{\"temp\":%u,\"hum\":%u,\"s_temp\":%u,\"s_hum\":%u}", temperature, humidity, s_temperature, s_humidity);
     printf("send json to requester\n");
     SEND_STRING(&s->sout, buff);
     //SEND_STRING(&s->sout, BOTTOM);
